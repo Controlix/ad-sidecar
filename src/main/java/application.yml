@@ -1,0 +1,38 @@
+server:
+  port: 5678
+  
+spring:
+  application:
+    name: ad-node
+  cloud:
+    config:
+      uri: http://adconfigservice.persgroep.net
+
+health:
+  config:
+    enabled: false
+
+ribbon:
+  eureka:
+    enabled: false
+
+sidecar:
+  port: 3000
+  health-uri: http://localhost:3000/health.json
+  
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  
+zuul:
+  routes:
+    configserver:
+      path: /config/**
+      url: http://adconfigservice.persgroep.net
+    teaserserver:
+      path: /teasers/**
+      url: http://adteaserservice.persgroep.net/rest/v2/teasers
+
